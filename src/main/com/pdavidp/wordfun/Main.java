@@ -13,6 +13,10 @@ public class Main {
                 lastOption = anagram.displayOptions(lastOption);
                 Scanner scannerWord = new Scanner(System.in);
                 System.out.println("\nEnter word: ");
+                if (!scannerWord.hasNext()) {
+                    System.out.println("End of input. Exiting.");
+                    return;
+                }
                 String nextWord = scannerWord.next();
                 if (!nextWord.equals(".")) {
                     anagram.selectWord(nextWord.toLowerCase());

@@ -9,7 +9,6 @@ class Anagram {
     private static final String WORD_NOT_FOUND = "Your word is not in the remaining letters.";
     private static final String SHOWING_FROM_TO = "Showing words %s to %s of %s.";
     private boolean resetLastOption, complete;
-    private int currentLetterCount;
     private Word remainingLetters = new Word();
     private WordPool availableOptions = new WordPool();
     private WordPool wordsSelected = new WordPool();
@@ -19,38 +18,41 @@ class Anagram {
         complete = false;
         availableOptions.buildDictionary();
         availableOptions.filterList(remainingLetters);
-        currentLetterCount = 0;
         resetLastOption = true;
     }
 
     /**
      * Display a list of options available
      *
-     * @param currentWord 1 based index showing user options
+     * @param currentWord zero-based index of the last option shown
      */
     int displayOptions(int currentWord) {
-        // reset the last option back to zero since a word was selected
-        int showTo;
+        int startIndex;
         if (resetLastOption) {
-            currentLetterCount = 0;
+            startIndex = 0;
             resetLastOption = false;
         } else {
-            // Add one so you don't show the last option twice (ie 1-25, and 25-50)
-            currentLetterCount = currentWord + 1;
+            startIndex = currentWord + 1;
         }
 
-        final int pageSize = NUMBEROFCOLUMNS*NUMBEROFROWS - 1;
+        final int pageSize = NUMBEROFCOLUMNS * NUMBEROFROWS;
         final int listSize = availableOptions.getList().size();
-        if (listSize < currentLetterCount + pageSize) {
-            // nearing the end of the list
-            showTo = listSize;
-            System.out.printf(SHOWING_FROM_TO + "\n", "1", showTo, listSize);
-        } else {
-            showTo = currentLetterCount + pageSize;
-            System.out.printf(SHOWING_FROM_TO + " Enter \".\" to show more.\n", currentLetterCount + 1, showTo + 1, listSize);
+
+        if (listSize == 0) {
+            System.out.println("No matching words.");
+            return -1;
         }
 
-        WordPool optionsToShow = availableOptions.getWordPool(currentLetterCount,showTo);
+        if (startIndex >= listSize) {
+            System.out.println("No more words to show.");
+            return listSize - 1;
+        }
+
+        int showTo = Math.min(startIndex + pageSize, listSize) - 1;
+        String morePrompt = showTo + 1 < listSize ? " Enter \".\" to show more." : "";
+        System.out.printf(SHOWING_FROM_TO + "%s%n", startIndex + 1, showTo + 1, listSize, morePrompt);
+
+        WordPool optionsToShow = availableOptions.getWordPool(startIndex, showTo);
         optionsToShow.showList(NUMBEROFCOLUMNS);
 
         return showTo;
