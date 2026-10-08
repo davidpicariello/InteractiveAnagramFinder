@@ -1,6 +1,5 @@
-package test.com.pdavidp.wordfun;
+package com.davidpicariello.wordfun;
 
-import main.com.pdavidp.wordfun.Word;
 import org.junit.Assert;
 import org.junit.Test;
 

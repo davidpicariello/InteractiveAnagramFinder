@@ -1,4 +1,4 @@
-package main.com.pdavidp.wordfun;
+package com.davidpicariello.wordfun;
 
 import java.io.IOException;
 

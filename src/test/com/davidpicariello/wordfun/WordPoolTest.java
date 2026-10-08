@@ -1,8 +1,5 @@
-package test.com.pdavidp.wordfun;
+package com.davidpicariello.wordfun;
 
-import main.com.pdavidp.wordfun.Dictionary;
-import main.com.pdavidp.wordfun.Word;
-import main.com.pdavidp.wordfun.WordPool;
 import org.junit.Assert;
 import org.junit.Test;
 
